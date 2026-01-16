@@ -1,10 +1,123 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Ad Platform</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Advertisement</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ad-card {
+      background: #ffffff;
+      width: 90%;
+      max-width: 700px;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .badge {
+      position: absolute;
+      top: 20px;
+      right: -40px;
+      background: #ff6a00;
+      color: #fff;
+      padding: 10px 60px;
+      transform: rotate(45deg);
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .ad-card h1 {
+      font-size: 36px;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .ad-card p {
+      font-size: 18px;
+      color: #555;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      margin-bottom: 35px;
+    }
+
+    .feature {
+      background: #f4f6ff;
+      padding: 20px;
+      border-radius: 12px;
+      font-size: 16px;
+      color: #444;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 15px 35px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 30px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #888;
+    }
+  </style>
 </head>
 <body>
-  <h1>THIS IS MY TEST AD</h1>
-  <p>Served via Kubernetes Blue-Green Deployment</p>
+  <div class="ad-card">
+    <div class="badge">TEST AD</div>
+
+    <h1>Test Advertisement Page</h1>
+    <p>
+      This is a sample advertisement page created for testing purposes.
+      It is designed to look modern, clean, and eye-catching.
+    </p>
+
+    <div class="features">
+      <div class="feature">✨ Modern Design</div>
+      <div class="feature">⚡ Fast Loading</div>
+      <div class="feature">📱 Fully Responsive</div>
+      <div class="feature">🎯 Clear Call-to-Action</div>
+    </div>
+
+    <a href="#" class="cta-button">Learn More</a>
+
+    <footer>
+      © 2026 Test Advertisement • Demo Purpose Only
+    </footer>
+  </div>
 </body>
 </html>
