@@ -1,0 +1,57 @@
+pipeline {
+  agent any
+
+  environment {
+    IMAGE_NAME = "govindk123/ad-service"
+    GITOPS_REPO = "https://github.com/govindkotalwar8/ad-platform-gitops.git"
+  }
+
+  stages {
+
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Build Image') {
+      steps {
+        sh "docker build -t $IMAGE_NAME:${BUILD_NUMBER} ."
+      }
+    }
+
+    stage('Login DockerHub') {
+      steps {
+        withCredentials([usernamePassword(
+          credentialsId: 'dockerhub-creds',
+          usernameVariable: 'DOCKER_USER',
+          passwordVariable: 'DOCKER_PASS'
+        )]) {
+          sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
+        }
+      }
+    }
+
+    stage('Push Image') {
+      steps {
+        sh "docker push $IMAGE_NAME:${BUILD_NUMBER}"
+      }
+    }
+
+    stage('Update GitOps Repo') {
+      steps {
+        sh """
+        rm -rf gitops
+        git clone $GITOPS_REPO gitops
+        cd gitops/ad-service
+
+        sed -i 's|image:.*|image: '$IMAGE_NAME':'$BUILD_NUMBER'|' rollout.yaml
+
+        git add rollout.yaml
+        git commit -m "Deploy ad-service v${BUILD_NUMBER}"
+        git push origin main
+        """
+      }
+    }
+  }
+}
