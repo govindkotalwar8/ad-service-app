@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Test Ad 1</title>
+  <title>Ad Platform</title>
 </head>
 <body style="
   margin:0;
@@ -14,15 +14,32 @@
   background:#f2f2f2;
 ">
 
-  <div style="
+  <div id="ad-box" style="
     padding:20px 40px;
     border:2px solid #000;
     background:#fff;
     font-size:28px;
     font-weight:bold;
   ">
-    TEST AD 1
+    Loading ad...
   </div>
+
+  <script>
+    fetch("https://ofe5cnu6gxmngk4zu3aldvvl5y0anagb.lambda-url.us-east-1.on.aws/")
+      .then(response => response.json())
+      .then(data => {
+        const adBox = document.getElementById("ad-box");
+        if (data.content) {
+          adBox.innerText = data.content;
+        } else {
+          adBox.innerText = "No active ads";
+        }
+      })
+      .catch(error => {
+        document.getElementById("ad-box").innerText = "Error loading ad";
+        console.error(error);
+      });
+  </script>
 
 </body>
 </html>
