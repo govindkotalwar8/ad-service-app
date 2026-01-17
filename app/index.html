@@ -25,20 +25,31 @@
   </div>
 
   <script>
-    fetch("https://l2jc2ezeu44gwxch45e2qajkqy0qtwfn.lambda-url.us-east-1.on.aws/")
-      .then(response => response.json())
-      .then(data => {
-        const adBox = document.getElementById("ad-box");
-        if (data.content) {
+    const API_URL = "https://l2jc2ezeu44gwxch45e2qajkqy0qtwfn.lambda-url.us-east-1.on.aws/";
+
+    async function loadAd() {
+      const adBox = document.getElementById("ad-box");
+      try {
+        const response = await fetch(API_URL);
+
+        if (!response.ok) {
+          throw new Error("HTTP " + response.status);
+        }
+
+        const data = await response.json();
+
+        if (data && data.content) {
           adBox.innerText = data.content;
         } else {
           adBox.innerText = "No active ads";
         }
-      })
-      .catch(error => {
-        document.getElementById("ad-box").innerText = "Error loading ad";
-        console.error(error);
-      });
+      } catch (err) {
+        console.error("API Error:", err);
+        adBox.innerText = "Error loading ad";
+      }
+    }
+
+    loadAd();
   </script>
 
 </body>
