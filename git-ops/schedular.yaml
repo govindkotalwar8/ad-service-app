@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ad-service-morning
+spec:
+  schedule: "0 6 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: switch
+            image: alpine/git
+            command: ["/bin/sh","-c"]
+            args:
+              - |
+                git clone https://<TOKEN>@github.com/govindkotalwar8/ad-platform-gitops.git
+                cd ad-platform-gitops/ad-service
+                sed -i 's|image:.*|image: govindk123/ad-service:morning|' rollout.yaml
+                git config user.email "argo@cd"
+                git config user.name "Argo Scheduler"
+                git commit -am "Switch to morning"
+                git push
+          restartPolicy: OnFailure

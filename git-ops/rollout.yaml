@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: ad-service
+  namespace: ads
+spec:
+  replicas: 2
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: ad-service
+  template:
+    metadata:
+      labels:
+        app: ad-service
+    spec:
+      containers:
+      - name: ad-service
+        image: govindk123/ad-service:morning
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+
+  strategy:
+    blueGreen:
+      activeService: ad-service
+      previewService: ad-service-preview
+      autoPromotionEnabled: true
